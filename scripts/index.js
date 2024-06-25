@@ -13,7 +13,7 @@ function createCard (data, deleteCallBack) {
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
-  deleteButton.addEventListener('click', () => deleteCallBack(cardElement));
+  deleteButton.addEventListener('click', deleteCallBack);
   return cardElement;
 }
 
