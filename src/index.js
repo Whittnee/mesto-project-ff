@@ -6,6 +6,7 @@ import { openModal, closeModal } from './components/modal';
 
 // Карточка
 const cardListElement = document.querySelector('.places__list');
+const popupCloseButton = document.querySelectorAll('.popup__close');
 
 
 // Профиль
@@ -78,9 +79,16 @@ formNewPlace.addEventListener('submit', createNewCard);
 
 
 // Открытие карточки
-function openImage(evt) {
-  imagePopup.src = evt.target.src
-  imagePopup.alt = evt.target.alt
-  imageName.textContent = evt.target.alt
+function openImage(src, title) {
+  imagePopup.src = src
+  imagePopup.alt = title
+  imageName.textContent = title
   openModal(popupTypeImage)
 };
+
+
+// Закрытие карточки с помощью кнопки
+popupCloseButton.forEach(button => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closeModal(popup))
+})

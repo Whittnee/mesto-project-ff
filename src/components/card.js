@@ -14,19 +14,18 @@ function createCard (data, deleteCallBack, openImage, clickLike) {
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
-  cardLikeButton.addEventListener('click', clickLike)
-  cardImage.addEventListener('click', openImage)
-  deleteButton.addEventListener('click', deleteCallBack);
+  cardLikeButton.addEventListener('click', () => clickLike(cardLikeButton));
+  cardImage.addEventListener('click', () => openImage(cardImage.src, cardImage.alt));
+  deleteButton.addEventListener('click', () => deleteCallBack(cardElement));
   return cardElement;
 }
 
 // Удаление карточки
-function deleteCard (evt) {
-  const cardToDelete = evt.target.closest('.card')
-  cardToDelete.remove();
+function deleteCard (cardElement) {
+  cardElement.remove();
 }
 
 // Лайк карточки
-function likeCard(evt) {
-  evt.target.classList.toggle('card__like-button_is-active')
+function likeCard(button) {
+  button.classList.toggle('card__like-button_is-active')
 }

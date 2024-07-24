@@ -3,14 +3,9 @@ export { openModal, closeModal }
 
 // Открытие карточки
 const openModal = function(popup) {
-  popup.classList.add('popup_is-animated');
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', closeEsc);
   popup.addEventListener('click', closeOverlay);
-  const popupCloseButton = popup.querySelector('.popup__close');
-  popupCloseButton.addEventListener('click', () => {
-    closeModal(popup)
-  });
 }
 
 
