@@ -1,5 +1,5 @@
 import './pages/index.css'
-import { createCard } from './components/card';
+import { createCard, updateLikeState, isLikedByUser } from './components/card';
 import { openModal, closeModal } from './components/modal';
 import { validationConfig, clearValidation, enableValidation } from './components/validation';
 import { getUserInfo, getUserCards, sendUserCard, updateUserData, updateUserProfilePhoto, deleteUserCard, removeUserLike, setUserLike } from './components/api';
@@ -54,11 +54,12 @@ function renderCard(data) {
 
 // Показывает состояние сохранения
 function loading(isloading, form) {
+  const popupButton = form.querySelector('.popup__button')
   if(isloading) {
-    form.querySelector('.popup__button').textContent = 'Сохранение...'
+    popupButton.textContent = 'Сохранение...'
   }
   else {
-    form.querySelector('.popup__button').textContent = 'Сохранить'
+    popupButton.textContent = 'Сохранить'
   }
 }
 
@@ -119,11 +120,10 @@ deleteCardButton.addEventListener('click', (evt) => {
 // Функция лайка
 function handleLikeCardSubmit (likeButton, cardData, cardLikes) {
   
-  if (likeButton.classList.contains('card__like-button_is-active')) {
+  if (isLikedByUser(cardData.likes, myId)) {
     removeUserLike(cardData)
       .then((res) => {
-        likeButton.classList.remove('card__like-button_is-active');
-        cardLikes.textContent = res.likes.length;
+        updateLikeState(likeButton, cardLikes, res)
       })
       .catch((err) => {
         console.log(`Произошла ${err}`)
@@ -132,8 +132,7 @@ function handleLikeCardSubmit (likeButton, cardData, cardLikes) {
   else {
     setUserLike(cardData)
       .then((res) => {
-        likeButton.classList.add('card__like-button_is-active');
-        cardLikes.textContent = res.likes.length
+        updateLikeState(likeButton, cardLikes, res)
       })
       .catch((err) => {
         console.log(`Произошла ${err}`)
@@ -251,4 +250,7 @@ Promise.all([getUserInfo(), getUserCards()])
     myId = userInfo._id
     renderProfile(userInfo)
     renderCard(userCards)
+  })
+  .catch((err) =>{
+    console.log(`Произошла ${err}`)
   })

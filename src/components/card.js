@@ -1,4 +1,4 @@
-export { createCard };
+export { createCard, updateLikeState, isLikedByUser };
 
 
 // Темплейт карточки
@@ -43,3 +43,11 @@ function createCard (cardData, myId, openPopupDeleteCard, openImage, handleLikeC
   return cardElement;
 }
 
+function updateLikeState(likeButton, cardLikes, res) {
+  likeButton.classList.toggle('card__like-button_is-active');
+  cardLikes.textContent = res.likes.length;
+}
+
+function isLikedByUser(likes, myId) {
+  return likes.some(user => user._id === myId);
+}
